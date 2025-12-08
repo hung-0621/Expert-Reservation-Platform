@@ -205,3 +205,17 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# === 前端 ===
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.env.local
+
+# === IDE 設定 (VSCode/JetBrains) ===
+.vscode/
+.idea/
+
+# === 系統檔案 ===
+.DS_Store
+Thumbs.db
