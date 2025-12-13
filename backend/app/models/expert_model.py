@@ -8,6 +8,6 @@ class Expert(db.Model):
     category = db.Column(db.String(50), nullable=False)
     bio = db.Column(db.Text)
     hourly_rate = db.Column(db.Numeric(10, 2), nullable=False)
-    image_url = db.Column(db.String(500))
+    image_name = db.Column(db.String(500))
     
     bookings = db.relationship('Booking', backref='expert', lazy=True)
