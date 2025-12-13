@@ -1,5 +1,8 @@
 .hero_section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: linear-gradient(to left, #d7d2cc, #304351);
-    color: white;
-    padding: 100px 20px;
+    width: 100%;
 }

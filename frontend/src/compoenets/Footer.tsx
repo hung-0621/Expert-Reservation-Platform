@@ -1,3 +1,5 @@
+import "../style/component/Footer.css"
+
 function Footer() {
     return (
         <div className="text-center my-4">
