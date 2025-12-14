@@ -4,6 +4,7 @@ from app.models.user_model import User
 from app.config import Config
 from app.models.expert_model import Expert
 from app.utils.auth_user import get_auth_user
+from app.utils.generate_response import generate_response
 
 expert_bp = Blueprint('expert', __name__, url_prefix='/api/expert')
 avatars_folder = Config.AVATARS_FOLDER
@@ -29,12 +30,12 @@ def list_experts():
             }
             experts_list.append(expert_data)
         
-        return jsonify({"experts": experts_list}), 200
+        return generate_response(200, "Experts retrieved successfully", {"experts": experts_list})
     
     except Exception as e:
         print(f"Error in list_experts: {e}")
-        return jsonify({"message": "ServerError: Unable to retrieve experts"}), 500
-
+        return generate_response(500, "ServerError: Unable to retrieve experts")
+    
 # get expert details by expert_id
 @expert_bp.route('/<expert_id>', methods=['GET'])
 def get_expert(expert_id):
@@ -45,7 +46,7 @@ def get_expert(expert_id):
         
         expert = Expert.query.get(expert_id)
         if not expert:
-            return jsonify({"message": "NotFound: Expert not found"}), 404
+            return generate_response(404, "NotFound: Expert not found")
         
         expert_data = {
             "expert_id": expert.expert_id,
@@ -56,12 +57,12 @@ def get_expert(expert_id):
             "image_url": expert.image_name
         }
         
-        return jsonify({"expert": expert_data}), 200
+        return generate_response(200, "Expert retrieved successfully", {"expert": expert_data})
         
     except Exception as e:
         print(f"Error in get_expert: {e}")
-        return jsonify({"message": "ServerError: Unable to retrieve expert details"}), 500
-
+        return generate_response(500, "ServerError: Unable to retrieve expert details")
+    
 # user applies to become an expert
 @expert_bp.route('/apply_to_expert', methods=['POST'])
 def apply_to_expert():
@@ -73,7 +74,7 @@ def apply_to_expert():
         user_id = user.user_id
         existing_expert = Expert.query.filter_by(user_id=user_id).first()
         if existing_expert:
-            return jsonify({"message": "Conflict: User is already an expert"}), 409
+            return generate_response(409, "Conflict: User is already an expert")
         
         request_data = request.get_json()
         category = request_data.get('category')
@@ -82,10 +83,10 @@ def apply_to_expert():
         image_name = request_data.get('image_name')
         
         if not category or not bio or not hourly_rate or not image_name:
-            return jsonify({"message": "BadRequest: Missing required fields"}), 400
+            return generate_response(400, "BadRequest: Missing required fields")
         
         if image_name not in ['boss', 'dish_washer', 'doctor', 'lawyer', 'moon_owner', 'Professor_Zhang', 'so_bad', 'so_fucking_rich']:
-            return jsonify({"message": "BadRequest: Invalid image choice"}), 400
+            return generate_response(400, "BadRequest: Invalid image choice")
         
         new_expert = Expert(
             user_id=user_id,
@@ -98,8 +99,8 @@ def apply_to_expert():
         db.session.add(new_expert)
         db.session.commit()
         
-        return jsonify({"message": "Success: Applied to become an expert"}), 201
+        return generate_response(201, "Success: Applied to become an expert")
     
     except Exception as e:
         print(f"Error in apply_to_expert: {e}")
-        return jsonify({"message": "ServerError: Unable to apply to expert"}), 500
+        return generate_response(500, "ServerError: Unable to apply to expert")

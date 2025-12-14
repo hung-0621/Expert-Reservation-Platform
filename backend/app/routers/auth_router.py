@@ -5,6 +5,7 @@ from app.extensions import db
 from app.models.user_model import User
 from app.config import Config
 from app.utils.auth_user import get_auth_user
+from app.utils.generate_response import generate_response
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
@@ -13,27 +14,27 @@ def register():
     try:        
         body = request.get_json()
         if not body:
-            return jsonify({"message": "BadRequest: No data provided"}), 400
+            return generate_response(400, "BadRequest: No data provided")
         
         name = body.get('name')
         email = body.get('email')
         password = body.get('password')
         if not name or not email or not password:
-            return jsonify({"message": "BadRequest: Missing required fields"}), 400
+            return generate_response(400, "BadRequest: Missing required fields")
         
         email_already_registered = User.query.filter_by(email=email).first()
         if email_already_registered:
-            return jsonify({"message": "Conflict: Email already registered"}), 409
+            return generate_response(409, "Conflict: Email already registered")
         
         hashed_password = generate_password_hash(password)
         new_user = User(name=name, email=email, password_hash=hashed_password)
         db.session.add(new_user)
         db.session.commit()
-        return jsonify({"message": "Register successfully"}), 200
+        return generate_response(200, "Register successfully")
     
     except Exception as e:
         print(f"Error in register: {e}")
-        return jsonify({"message": "SeverError: Registration failed"}), 500
+        return generate_response(500, "SeverError: Registration failed")
     
 
 @auth_bp.route('/login', methods=['POST'])
@@ -41,19 +42,18 @@ def login():
     try:
         body = request.get_json()
         if not body:
-            return jsonify({"message": "BadRequest: No data provided"}), 400
+            return generate_response(400, "BadRequest: No data provided")
         
         email = body.get('email')
         password = body.get('password')
         if not email or not password:
-            return jsonify({"message": "BadRequest: Missing required fields"}), 400
+            return generate_response(400, "BadRequest: Missing required fields")
         
         user: User = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password_hash, password):
             access_token = create_access_token(identity=str(user.user_id))
-        
-            resp = jsonify({
-                "message": "Login successfully",
+
+            resp = generate_response(200, "Login successfully", {
                 "user": {
                     "name": user.name,
                     "email": user.email
@@ -64,15 +64,15 @@ def login():
         
             return resp, 200
         else:
-            return jsonify({"message": "Unauthorized: Invalid credentials"}), 401
+            return generate_response(401, "Unauthorized: Invalid credentials")
     
     except Exception as e:
         print(f"Error in login: {e}")
-        return jsonify({"message": "SeverError: Login failed"}), 500
+        return generate_response(500, "SeverError: Login failed")
     
 @auth_bp.route('/logout', methods=['POST'])
 def logout():
-    resp = make_response(jsonify({"message": "Logout successfully"}), 200)
+    resp = generate_response(200, "Logout successfully")
     resp.delete_cookie('access_token_cookie', path='/', httponly=True, samesite='Lax', secure=Config.COOKIE_SECURE)
     resp.delete_cookie('csrf_access_token', path='/', httponly=False, samesite='Lax', secure=Config.COOKIE_SECURE)
     return resp
@@ -85,12 +85,15 @@ def me():
         if error:
             return error, status_code
         
-        return jsonify({
+        resp = generate_response(200, "User information retrieved successfully", {
             "user": {
                 "name": user.name,
                 "email": user.email
             }
         })
+        
+        return resp
+    
     except Exception as e:
         print(f"Error in me: {e}")
-        return jsonify({"message": "ServerError: Unable to retrieve user information"}), 500
+        return generate_response(500, "ServerError: Unable to retrieve user information")
