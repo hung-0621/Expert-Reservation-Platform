@@ -62,7 +62,7 @@ def login():
             
             set_access_cookies(resp, access_token)
         
-            return resp, 200
+            return resp
         else:
             return generate_response(401, "Unauthorized: Invalid credentials")
     

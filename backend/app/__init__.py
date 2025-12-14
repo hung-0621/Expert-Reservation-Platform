@@ -13,7 +13,7 @@ def create_app():
 
     # Initialize extensions
     db.init_app(app)
-    cors.init_app(app)
+    cors.init_app(app, resources={r"/api/*": {"origins": Config.FRONT_END_BASE_URL}}, supports_credentials=True)
     migrate.init_app(app, db)
 
     # Register blueprints
