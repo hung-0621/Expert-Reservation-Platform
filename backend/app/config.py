@@ -5,11 +5,12 @@ load_dotenv()
 
 class Config:
     FRONT_END_BASE_URL = os.getenv('FRONT_END_BASE_URL')
+    BACKEND_BASE_URL = os.getenv('BACK_END_BASE_URL')
     SECRET_KEY = os.getenv('SECRET_KEY')
     COOKIE_SECURE = os.getenv('FLASK_DEBUG') == '0'  # Set to True in production with HTTPS
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    AVATARS_FOLDER = os.getenv('AVATARS_FOLDER')
+    AVATARS_JSON_FOLDER = os.getenv('AVATARS_JSON_FOLDER')
     
     JWT_TOKEN_LOCATION = ['cookies']
     JWT_COOKIE_SECURE = os.getenv('FLASK_DEBUG') == '0'  # Set to True in production with HTTPS

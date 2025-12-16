@@ -9,12 +9,9 @@ def get_auth_user() -> tuple[str | None, wrappers.Response | None, int | None]:
         verify_jwt_in_request(locations=['cookies'])
         current_user_id = get_jwt_identity()
         user = User.query.get(current_user_id)
-        expert = Expert.query.get(current_user_id)
         
         if user:
-            return user, None, 200
-        elif expert:
-            return expert, None, 200
+            return user, None, None
         else:
             return None, jsonify({"message": "Unauthorized: User not found"}), 401
     

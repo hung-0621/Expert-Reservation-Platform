@@ -1,3 +1,4 @@
+import os, json
 from flask import Blueprint, request, jsonify, make_response
 from app.extensions import db
 from app.models.user_model import User
@@ -7,7 +8,7 @@ from app.utils.auth_user import get_auth_user
 from app.utils.generate_response import generate_response
 
 expert_bp = Blueprint('expert', __name__, url_prefix='/api/expert')
-avatars_folder = Config.AVATARS_FOLDER
+BACKEND_BASE_URL = Config.BACKEND_BASE_URL
 
 # list all experts
 @expert_bp.route('/list', methods=['GET'])
@@ -20,14 +21,22 @@ def list_experts():
         experts = Expert.query.all()
         experts_list = []
         for expert in experts:
+            user = User.query.get(expert.user_id)
+            if not user:
+                continue
+        
+            image_path = f"/static/images/{expert.image_name}.png"
+            image_url = f"{BACKEND_BASE_URL}{image_path}"
+            
             expert_data = {
                 "expert_id": expert.expert_id,
-                "user_id": expert.user_id,
+                "name": user.name,
                 "category": expert.category,
                 "bio": expert.bio,
                 "hourly_rate": expert.hourly_rate,
-                "image_url": expert.image_name
+                "image_url": image_url
             }
+            
             experts_list.append(expert_data)
         
         return generate_response(200, "Experts retrieved successfully", {"experts": experts_list})
@@ -48,13 +57,20 @@ def get_expert(expert_id):
         if not expert:
             return generate_response(404, "NotFound: Expert not found")
         
+        user = User.query.get(expert.user_id)
+        if not user:
+            return generate_response(404, "NotFound: User not found")
+
+        image_path = f"/static/images/{expert.image_name}.png"
+        image_url = f"{BACKEND_BASE_URL}{image_path}"
+        
         expert_data = {
             "expert_id": expert.expert_id,
-            "user_id": expert.user_id,
+            "name": user.name,
             "category": expert.category,
             "bio": expert.bio,
             "hourly_rate": expert.hourly_rate,
-            "image_url": expert.image_name
+            "image_url": image_url
         }
         
         return generate_response(200, "Expert retrieved successfully", {"expert": expert_data})

@@ -47,6 +47,9 @@ def create_booking():
         if start_time >= end_time:
             return generate_response(400, "BadRequest: Invalid time range")
         
+        if start_time <= datetime.now() or end_time <= datetime.now():
+            return generate_response(400, "BadRequest: Booking times must be in the future")
+        
         time_zone_utc_plus_8 = timezone(timedelta(hours=8))
         date_time_aware = datetime.now(time_zone_utc_plus_8)
         
