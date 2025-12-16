@@ -1,6 +1,7 @@
-from flask import Blueprint, request, jsonify, make_response
+from datetime import timedelta
+from flask import Blueprint, request
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies
+from flask_jwt_extended import create_access_token, set_access_cookies
 from app.extensions import db
 from app.models.user_model import User
 from app.config import Config
@@ -51,7 +52,8 @@ def login():
         
         user: User = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password_hash, password):
-            access_token = create_access_token(identity=str(user.user_id))
+            expires_delta=timedelta(days=1)
+            access_token = create_access_token(identity=str(user.user_id), expires_delta=expires_delta)
 
             resp = generate_response(200, "Login successfully", {
                 "user": {

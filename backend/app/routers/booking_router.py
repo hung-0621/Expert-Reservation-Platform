@@ -1,10 +1,8 @@
 from datetime import timedelta, timezone, datetime
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request
 from app.extensions import db
-from app.models.user_model import User
 from app.models.expert_model import Expert
 from app.models.booking_model import Booking
-from app.config import Config
 from app.utils.auth_user import get_auth_user
 from app.utils.time_format import validate_isoformat
 from app.utils.generate_response import generate_response

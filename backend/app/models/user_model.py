@@ -1,5 +1,4 @@
 from app.extensions import db
-from datetime import datetime
 from app.utils.time_format import get_current_tw_time
 
 class User(db.Model):

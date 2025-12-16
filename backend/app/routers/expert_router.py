@@ -1,5 +1,4 @@
-import os, json
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request
 from app.extensions import db
 from app.models.user_model import User
 from app.config import Config
