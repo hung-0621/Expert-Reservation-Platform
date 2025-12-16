@@ -1,0 +1,37 @@
+.footer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.95rem;
+    color: #64748b; /* 專業的灰藍色 */
+    padding: 2rem 0; /* 增加上下內距 */
+    margin-top: auto; /* 確保 Footer 推到底部 (如果父容器是 flex-col) */
+    background-color: #f8fafc; /* 極淺的灰藍色背景 */
+    border-top: 1px solid #e2e8f0; /* 柔和的邊框 */
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-container a {
+    text-decoration: none;
+    color: #3b82f6; /* 亮藍色，呼應主色調 */
+    font-weight: 600;
+    transition: all 0.2s ease;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+}
+
+.footer-container a:hover {
+    color: #1d4ed8; /* 深藍色 */
+    background-color: rgba(59, 130, 246, 0.1); /* 懸停時的淡藍色背景 */
+    text-decoration: none;
+}
+
+.footer-container span {
+    letter-spacing: 0.02em;
+}

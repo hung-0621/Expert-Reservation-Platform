@@ -1,0 +1,87 @@
+/* Header 整體容器 */
+.header-section {
+    background: rgba(255, 255, 255, 0.9); /* 半透明白色背景 */
+    backdrop-filter: blur(10px); /* 玻璃模糊效果 */
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    padding: 1rem 0;
+    position: sticky; /* 固定在頂部 */
+    top: 0;
+    z-index: 1000; /* 確保在最上層 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+
+/* Logo 樣式 */
+.brand-logo {
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); /* 藍色漸層文字 */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.3s ease;
+}
+
+.nav-font{
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #374151; /* 深灰色文字 */
+    transition: color 0.3s ease;
+}
+
+.nav-font:hover {
+    color: #1e40af; /* 懸停時變藍色 */
+    text-decoration: none;
+}
+
+/* 按鈕通用樣式 */
+.header-btn {
+    border-radius: 50px !important; /* 圓角按鈕 */
+    padding: 0.5rem 1.5rem !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    transition: all 0.3s ease !important;
+}
+
+/* 登入按鈕 (Outline 風格) */
+.btn-login {
+    color: #1e40af !important;
+    border: 2px solid #1e40af !important;
+    background: transparent !important;
+}
+
+.btn-login:hover {
+    background: rgba(30, 64, 175, 0.05) !important;
+    transform: translateY(-1px);
+}
+
+/* 註冊按鈕 (Solid 風格) */
+.btn-register {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
+    border: none !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-register:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+    opacity: 0.95;
+}
+
+/* 登出按鈕 */
+.btn-logout {
+    color: #64748b !important;
+    border: 1px solid #cbd5e1 !important;
+    background: white !important;
+}
+
+.btn-logout:hover {
+    background: #f1f5f9 !important;
+    color: #ef4444 !important; /* 懸停時變紅色 */
+    border-color: #ef4444 !important;
+}
