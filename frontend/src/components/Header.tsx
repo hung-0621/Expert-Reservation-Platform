@@ -66,7 +66,7 @@ function Header() {
                         <Nav className="d-none d-md-flex gap-4">
                              {(isLoggedIn) ? (<Nav.Link href="/expert"><span className="nav-font">專家列表</span></Nav.Link>) : null}
                             <Nav.Link href="/platform-intro"><span className="nav-font">平台介紹</span></Nav.Link>
-                            <Nav.Link href="/about-zzy"><span className="nav-font">關於子儀</span></Nav.Link>
+                            <Nav.Link href="/about-zzy"><span className="nav-font">關於ZZY</span></Nav.Link>
                         </Nav>
                         
 

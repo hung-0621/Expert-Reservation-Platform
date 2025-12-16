@@ -33,14 +33,9 @@ function LandingPage() {
                                 <Button 
                                     className="btn-hero-primary"
                                     onClick={() => navigate('/expert')}
+                                    size='lg'
                                 >
                                     尋找專家
-                                </Button>
-                                <Button 
-                                    className="btn-hero-secondary"
-                                    onClick={() => navigate('/register')}
-                                >
-                                    成為專家
                                 </Button>
                             </div>
 

@@ -1,0 +1,141 @@
+/* 全頁背景：深邃的黑金漸層 */
+.zzy-page-container {
+    min-height: 100vh;
+    background: radial-gradient(circle at 50% 0%, #2c2c2c 0%, #000000 100%);
+    color: #e2e8f0;
+    padding-bottom: 5rem;
+    font-family: 'Microsoft JhengHei', sans-serif;
+}
+
+/* 頭部區塊：帝王光環 */
+.zzy-header {
+    padding: 6rem 0 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding-top: 5rem;
+}
+
+/* 背景裝飾光束 */
+.zzy-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* 頭像容器 */
+.zzy-avatar-wrapper {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 2rem;
+    z-index: 1;
+}
+
+.zzy-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #d4af37; /* 帝王金邊框 */
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5); /* 金色發光 */
+    transition: transform 0.5s ease;
+}
+
+.zzy-avatar:hover {
+    transform: scale(1.05) rotate(5deg);
+}
+
+/* 名字與頭銜 */
+.zzy-name {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
+    line-height: 1.5;
+}
+
+.zzy-title {
+    font-size: 1.2rem;
+    color: #94a3b8;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+}
+
+/* 內容卡片風格 */
+.zzy-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.zzy-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(212, 175, 55, 0.6);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* 區塊標題 */
+.section-title {
+    font-size: 1.5rem;
+    color: #d4af37; /* 金色 */
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+    padding-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* 內文樣式 */
+.zzy-text {
+    line-height: 1.8;
+    color: #cbd5e1;
+    font-size: 1.05rem;
+    text-align: justify;
+}
+
+/* 技能標籤 */
+.expertise-item {
+    background: rgba(212, 175, 55, 0.1);
+    border-left: 3px solid #d4af37;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0 8px 8px 0;
+}
+
+.expertise-title {
+    color: #fcf6ba;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+/* 聯絡資訊區塊 (特殊樣式) */
+.contact-card {
+    background: linear-gradient(135deg, #2c0b0e 0%, #000000 100%);
+    border: 1px solid #ef4444;
+}
+
+.contact-text {
+    color: #fca5a5;
+    font-style: italic;
+}
