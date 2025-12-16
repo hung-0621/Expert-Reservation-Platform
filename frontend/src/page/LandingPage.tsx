@@ -1,10 +1,11 @@
+import { Container } from "react-bootstrap";
 import "../style/LandingPage/LandingPage.css"
 
 function LandingPage() {
     return (
-        <div className="hero_section">
-            Landing Page Content
-        </div>
+        <Container fluid className="hero_section">
+            歡迎來到 NexusLink 專家預約平台
+        </Container>
     )
 }
 

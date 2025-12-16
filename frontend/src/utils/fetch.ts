@@ -4,6 +4,13 @@ interface RequestOptions {
     headers?: HeadersInit;
 }
 
+function getCookie(name: string): string | null {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+    return null;
+}
+
 export async function asyncGet(api: string, options: RequestOptions = {}): Promise<ApiResponse<any>> {
     const headers: any = {
         'Content-Type': 'application/json',
@@ -27,9 +34,11 @@ export async function asyncGet(api: string, options: RequestOptions = {}): Promi
 
 export async function asyncPost(api: string, body: {} | FormData, options: RequestOptions = {}): Promise<any>{
     const isFormData = body instanceof FormData;
-    
+    const csrfToken = getCookie('csrf_access_token');
+
     const headers: any = {
         ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+        ...(csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {}),
         ...options.headers,
     };
 
@@ -50,8 +59,11 @@ export async function asyncPost(api: string, body: {} | FormData, options: Reque
 }
 
 export async function asyncDelete(api: string, options: RequestOptions = {}): Promise<any> {
+    const csrfToken = getCookie('csrf_access_token');
+
     const headers: any = {
         'Content-Type': 'application/json',
+        ...(csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {}),
         ...options.headers
     }
     const response = await fetch(api, {

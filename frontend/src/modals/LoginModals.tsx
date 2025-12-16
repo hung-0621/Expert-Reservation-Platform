@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { asyncGet, asyncPost } from '../utils/fetch';
 import { auth_api } from '../api/api';
@@ -6,6 +7,12 @@ import { auth_api } from '../api/api';
 interface LoginModalsProps {
     showModal: boolean;
     handleClose: () => void;
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface LoginFormProps {
+    handleClose: () => void;
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface LoginFormData {
@@ -13,8 +20,9 @@ interface LoginFormData {
     password: string;
 }
 
-function LoginForm() {
-    const [formData, setFormData] = useState({
+function LoginForm({ handleClose, setIsLoggedIn }: LoginFormProps) {
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState<LoginFormData>({
         email: '',
         password: ''
     });
@@ -40,7 +48,9 @@ function LoginForm() {
                 try {
                     const meResponse = await asyncGet(auth_api.ME);
                     if (meResponse.code === 200 || meResponse.data.user) {
-                        console.log("驗證 Cookie 成功，使用者資料：", meResponse);
+                        setIsLoggedIn(true);
+                        handleClose();
+                        navigate('/expert');
                     } else {
                         console.error("驗證失敗：", meResponse);
                     }
@@ -61,13 +71,14 @@ function LoginForm() {
     return (
         <Form onSubmit={(e) => handleFormSubmit(e, formData)}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Email</Form.Label>
+                <Form.Label>電子郵件</Form.Label>
                 <Form.Control
                     type="email"
                     name="email"
-                    placeholder="Enter email"
+                    placeholder="請輸入電子郵件"
                     value={formData.email}
                     onChange={(e) => { handleFormChange(e, setFormData) }}
+                    required
                 />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -75,9 +86,10 @@ function LoginForm() {
                 <Form.Control
                     type="password"
                     name="password"
-                    placeholder="Password"
+                    placeholder="請輸入密碼"
                     value={formData.password}
                     onChange={(e) => handleFormChange(e, setFormData)}
+                    required
                 />
             </Form.Group>
             <hr></hr>
@@ -89,10 +101,7 @@ function LoginForm() {
 }
 
 // main component
-function LoginModals({ showModal, handleClose }: LoginModalsProps) {
-
-
-
+function LoginModals({ showModal, handleClose, setIsLoggedIn }: LoginModalsProps) {
     return (
         <Modal
             show={showModal}
@@ -103,7 +112,10 @@ function LoginModals({ showModal, handleClose }: LoginModalsProps) {
                 <Modal.Title>登入</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <LoginForm />
+                <LoginForm
+                    handleClose={handleClose}
+                    setIsLoggedIn={setIsLoggedIn}
+                />
             </Modal.Body>
         </Modal>
     )
